@@ -20,6 +20,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private AmmoType ammoType;
     [SerializeField] private Ammo ammo;
 
+    [SerializeField] private float damage = 30f;
+
     // Runs once when the object loads.
     void Awake()
     {
@@ -91,7 +93,15 @@ public class Weapon : MonoBehaviour
                 out hit, range, shootMask, QueryTriggerInteraction.Ignore))
         {
             print("I hit this: " + hit.transform.name);
-            // TODO: damage the target (added in the tutorial)
+            //damage the target (added in the tutorial)
+            EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
+
+            if(target == null)
+            {
+                return;
+            }
+
+            target.TakeDamage(damage);
         }
     }
 }

@@ -24,6 +24,14 @@ public class EnemyHealth : MonoBehaviour
         return isDead;
     }
 
-    // Students add TakeDamage() in Week 15.
+    public void TakeDamage(float damage)
+    {
+        hitPoints -= damage;
+
+        if(hitPoints <= damage)
+        {
+            Destroy(gameObject);
+        }
+    }
     // Students add Die() in Week 16.
 }

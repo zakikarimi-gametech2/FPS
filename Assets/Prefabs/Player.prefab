@@ -638,6 +638,8 @@ MonoBehaviour:
   FPCamera: {fileID: 0}
   range: 100
   shotCooldown: 0.5
+  ammoType: 2
+  ammo: {fileID: 3884768831641544142}
 --- !u!4 &8777889597170173584 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4807936623768860, guid: 509dff16c6aa1f140b647832785db7cf, type: 3}
