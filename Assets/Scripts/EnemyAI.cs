@@ -7,21 +7,36 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] float chaseRange = 5.0f;
 
+    [SerializeField] float turnSpeed = 5.0f;
+
     float distanceToTarget = Mathf.Infinity;
 
     private bool isProvoked = false;
 
     NavMeshAgent nma;
 
+    EnemyHealth health;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         nma = GetComponent<NavMeshAgent>();
+
+        health = GetComponent<EnemyHealth>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(health.isDead)
+        {
+            enabled = false;
+
+            nma.enabled = false;
+
+            return;
+        }
+
         distanceToTarget = Vector3.Distance(target.position, transform.position);
 
         if(isProvoked)
@@ -38,6 +53,8 @@ public class EnemyAI : MonoBehaviour
 
     private void EngageTarget()
     {
+        FaceTarget();
+
         if(distanceToTarget >= nma.stoppingDistance)
         {
             ChaseTarget();
@@ -64,6 +81,20 @@ public class EnemyAI : MonoBehaviour
 
         // Temp for now to show that the enemy is attacking
        // print(name + " is attacking " + target.name);
+    }
+
+    private void FaceTarget()
+    {
+       Vector3 direction = (target.position - transform.position).normalized;
+
+       Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+
+       transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
+    }
+
+    public void OnDamageTaken()
+    {
+        isProvoked = true;
     }
 
     void OnDrawGizmosSelected()
